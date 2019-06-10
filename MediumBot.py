@@ -12,10 +12,10 @@ from random import shuffle
 os.environ["PATH"] = os.environ["PATH"] + ":./"
 
 # Configure constants here
-EMAIL = 'EMAIL'
-PHONE = 'PHONE'
-PASSWORD = 'PASSWORD'
-LOGIN_SERVICE = 'Twitter'
+EMAIL = os.environ.get("EMAIL")
+PHONE = os.environ.get("PHONE")
+PASSWORD = os.environ.get("PASSWORD")
+LOGIN_SERVICE = os.environ.get("SERVICE")
 DRIVER = 'Chrome'
 LIKE_POSTS = True
 COMMENT_ON_POSTS = True
@@ -88,7 +88,7 @@ def StartBrowser(browserChoice):
         options.add_argument('--single-process')
         options.add_argument('--disable-dev-shm-usage')
         if platform == "darwin":
-            browser = webdriver.Chrome("chromedriver-mac", options=options)
+            browser = webdriver.Chrome("chromedriver", options=options)
         else:
             options.binary_location = "headless-chromium-lambda"
             browser = webdriver.Chrome("chromedriver-lambda", options=options)
@@ -224,7 +224,8 @@ def SignInToFacebook(browser):
 
     signInCompleted = False
     try:
-        browser.find_element_by_class_name('button--facebook').click()
+        browser.find_element_by_class_name('js-switchFlow').click()
+        browser.find_element_by_class_name('js-facebookButton').click()
         browser.find_element_by_xpath('//input[@id="email"]').send_keys(EMAIL)
         browser.find_element_by_xpath('//input[@id="pass"]').send_keys(PASSWORD)
         browser.find_element_by_xpath('//button[@id="loginbutton"]').click()

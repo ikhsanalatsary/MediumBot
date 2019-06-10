@@ -8,8 +8,8 @@ the bot.
 Note: this is a starting point for the GUI and is not finished.
 """
 
-from Tkinter import *
-from ttk import *
+from tkinter import *
+from tkinter.ttk import *
 from tempfile import mkstemp
 from shutil import move
 from os import remove, close
